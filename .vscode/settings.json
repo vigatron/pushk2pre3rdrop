@@ -1,0 +1,57 @@
+{
+    "python.testing.unittestEnabled": true,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./tests",
+        "-p",
+        "test*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "cmake.debugConfig": {
+        "args": [
+            //
+            // "s",
+            // "../examples/example7b.bin",
+            // "../results/example7b.bin/example7bd.bin.rdrop",
+            // "../results/example7b.bin/example7bd.bin",
+            // "0",
+            // "256",
+            // "64"
+            //
+            // "s",
+            // "../examples/example8.bin",
+            // "../results/example8.bin/example8d.bin.rdrop",
+            // "../results/example8.bin/example8d.bin",
+            // "0",
+            // "8",
+            // "2048"
+            //
+            // "s",
+            // "../examples/example9b.bin",
+            // "../results/example9b.bin/example9bd.bin.rdrop",
+            // "../results/example9b.bin/example9bd.bin",
+            // "0",
+            // "256",
+            // "64"
+            //
+            //
+            "s",
+            "../examples/example10b.bin",
+            "../results/example10b.bin/example10bd.bin.rdrop",
+            "../results/example10b.bin/example10bd.bin",
+            "0",
+            "256",
+            "64"
+            //
+        ]
+    },
+    "python-envs.pythonProjects": [
+        {
+            "path": "tests/archs.py",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        }
+    ],
+}
