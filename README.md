@@ -1,27 +1,37 @@
 
 # PUSHK Archiver: representation-first compression filter `rdrop`
 
+
+[![C++](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://isocpp.org/)
+[![CMake](https://img.shields.io/badge/CMake-3.16+-green.svg)](https://cmake.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 **Filter name** `pushk2pre3rdrop`  
 
 **Author** V01G04A81 Viktor Glebov
+
 
 ---
 
 ## Usage
 
-
-    pushk2pre3rdrop	<cmd> <file_name_input> <file_name_rdroptbl> <file_name_output> <start_offset> <count> <block_size>
-
----
+```bash
+    pushk2pre3rdrop <cmd> <file_name_input> <file_name_rdroptbl> <file_name_output> <start_offset> <count> <block_size>
+```
 
 ### Command Line Parameters
-- `cmd`: `s` (split) or `m` (merge) or `v` (version)
-- `file_name_input`
-- `file_name_rdroptbl`
-- `file_name_output`
-- `start_offset` (in bytes)
-- `count` (256 max)
-- `block_size` in bytes
+
+| Parameter            | Description |
+|---------------------|-------------|
+| `cmd`               | Operation mode: `s` — split, `m` — merge, `v` — version |
+| `file_name_input`   | Path to input file |
+| `file_name_rdroptbl`| Path to RDROP table file |
+| `file_name_output`  | Path to output file |
+| `start_offset`      | Start offset in bytes |
+| `count`             | Number of blocks to process (maximum: 256) |
+| `block_size`        | Size of each block in bytes |
+
 
 ### Example
 
@@ -32,34 +42,40 @@ example:
 ```
 
 where :
-    s - Split command
-    example10b.bin - Source file
-    example10bd.bin.rdrop.bin - Output rdrop table name
-    example10bd.bin - Output transformed file name
-    0   - offset
-    256 - count
-    64  - block size
+
+
+| Parameter / Value                 | Description |
+|----------------------------------|-------------|
+| `s`                              | Split command |
+| `example10b.bin`                 | Source file |
+| `example10bd.bin.rdrop.bin`      | Output RDROP table file name |
+| `example10bd.bin`                | Output transformed file name |
+| `0`                              | Offset |
+| `256`                            | Count |
+| `64`                             | Block size |
 
 
 ---
 
-### Tests
+## 🧪 Tests
 
-- Original File ( MD5 )
-- Split > RDrop + Transformed ( MD5 )
+- 📁 Original File (MD5)
+- 🔀 Split → RDrop + Transformed (MD5)
 
+---
 
-example7.bin	>	[move] cl_filter_b.yaml		>	example7b.bin
-example7b.bin	>	[rdrp] 64					>	example7bd.bin + example7b_rdrop.bin
+### 🔧 Pipeline Results
 
-example8.bin	>	[rdrp] 2048					>	example8d.bin + example8_rdrop.bin
-example8d.bin	>	[move] cl_filter_b.yaml		>	example8db.bin
-
-example9.bin	>	[move] cl_filter_b.yaml		>	example9b.bin
-example9b.bin	>	[rdrp] 64					>	example9bd.bin + example9b_rdrop.bin
-
-example10.bin	>	[move] cl_filter_b.yaml	    >	example10b.bin
-example10b.bin	>	[rdrp] 64					>	example10bd.bin + example10b_rdrop.bin
+| Input file        | Operation | Config / Mode        | Output file(s) |
+|------------------|----------|----------------------|----------------|
+| example7.bin     | [move]   | cl_filter_b.yaml     | example7b.bin |
+| example7b.bin    | [rdrp]   | 64                   | example7bd.bin + example7b_rdrop.bin |
+| example8.bin     | [rdrp]   | 2048                 | example8d.bin + example8_rdrop.bin |
+| example8d.bin    | [move]   | cl_filter_b.yaml     | example8db.bin |
+| example9.bin     | [move]   | cl_filter_b.yaml     | example9b.bin |
+| example9b.bin    | [rdrp]   | 64                   | example9bd.bin + example9b_rdrop.bin |
+| example10.bin    | [move]   | cl_filter_b.yaml     | example10b.bin |
+| example10b.bin   | [rdrp]   | 64                   | example10bd.bin + example10b_rdrop.bin |
 
 ---
 
@@ -113,9 +129,23 @@ example10b.bin	>	[rdrp] 64					>	example10bd.bin + example10b_rdrop.bin
 
 ***Notes:***
 
-OriginalFile according to "filter configuration parameters" splitted to > "RDropTable + TransformedFile"
+---
+## 🔄 Data Flow
 
-OriginalFile can be restored from < "RDropTable + TransformedFile" with "filter configuration parameters"
+---
+### 📤 Encoding (Split mode)
+📁 **OriginalFile** is split according to *filter configuration parameters* into:
+
+➡️ `RDropTable + TransformedFile`
+
+---
+
+### 📥 Decoding (Merge mode)
+📁 **OriginalFile** can be fully restored from:
+
+⬅️ `RDropTable + TransformedFile`
+
+using the same *filter configuration parameters*.
 
 ---
 
