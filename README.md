@@ -57,14 +57,22 @@ where :
 
 ---
 
-## 🧪 Tests
+## Tests
 
-- 📁 Original File (MD5)
-- 🔀 Split → RDrop + Transformed (MD5)
+| Preview                                     | File            | Author     |
+| ------------------------------------------- | --------------- | ---------- |
+| <img src="docs/example7.png" width="600">   | `example7.bin`  | V01G04A81  |
+| <img src="docs/example8.png" width="600">   | `example8.bin`  | V01G04A81  |
+| <img src="docs/example9.png" width="600">   | `example9.bin`  | V01G04A81  |
+| <img src="docs/example10.png" width="600">  | `example10.bin` | V01G04A81  |
+
+
+- Original File (MD5)
+- Split → RDrop + Transformed (MD5)
 
 ---
 
-### 🔧 Pipeline Results
+### Pipeline Results
 
 | Input file        | Operation | Config / Mode        | Output file(s) |
 |------------------|----------|----------------------|----------------|
@@ -83,16 +91,16 @@ where :
 
 |  Archiver  |  Version  |  Info  | * Parameters |
 |--------|-----------|--------|--------|
-|  zip  |  3.0  |  This is Zip 3.0 (July 5th 2008), by Info-ZIP.  | -9 |
-|  rar  |  7.00  |  RAR 7.00   Copyright (c) 1993-2024 Alexander Roshal   26 Feb 2024  | -m5 |
+|  zip  |  3.0  |  This is Zip 3.0<br>(July 5th 2008), by Info-ZIP.  | -9 |
+|  rar  |  7.00  |  RAR 7.00<br>Copyright (c) 1993-2024 Alexander Roshal<br>26 Feb 2024  | -m5 |
 |  lzma  |  5.4.5  |  xz (XZ Utils) 5.4.5  | -9 |
-|  7z  |  23.01  |  7-Zip 23.01 (x64) : Copyright (c) 1999-2023 Igor Pavlov : 2023-06-20  | -mx9 |
+|  7z  |  23.01  |  7-Zip 23.01 (x64) :<br>Copyright (c) 1999-2023 Igor Pavlov :<br>2023-06-20  | -mx9 |
 |  xz  |  5.4.5  |  xz (XZ Utils) 5.4.5  | -9 |
-|  zstd  |  1.5.5  |  Zstandard CLI (64-bit) v1.5.5, by Yann Collet  | --ultra -22 |
+|  zstd  |  1.5.5  |  Zstandard CLI (64-bit)<br>v1.5.5, by Yann Collet  | --ultra -22 |
 |  brotli  |  1.1.0  |  brotli 1.1.0  | -q 11 |
-|  bzip2  |  1.0.8  |  bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.  | -9 |
+|  bzip2  |  1.0.8  |  bzip2, a block-sorting file compressor.<br>Version 1.0.8, 13-Jul-2019.  | -9 |
 |  gzip  |  1.12  |  gzip 1.12  | -9 |
-|  arj  |  3.10  |  ARJ32 v 3.10, Copyright (c) 1998-2004, ARJ Software Russia.  | -jm
+|  arj  |  3.10  |  ARJ32 v 3.10,<br>Copyright (c) 1998-2004, ARJ Software Russia.  | -jm
 
 ***Parameters: Max compression rate***
 
@@ -168,3 +176,7 @@ using the same *filter configuration parameters*.
 | example9bd.bin | 16384 | 1194 |1013 |933 |1057 |980 |865 |858 |1142 |1049 |1169 |
 | example10bd.bin | 16384 | 898 |741 |689 |813 |736 |663 |672 |883 |752 |876 |
 
+Links:
+
+.cells format :
+PUSHK 'MOVE' Filter:
