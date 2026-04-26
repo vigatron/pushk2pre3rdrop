@@ -34,8 +34,7 @@ def pack_files( src_files : list[str]):
             print( arrcmd )
             rundir = os.path.dirname(fname_bin)
             try:
-                subprocess.run(arrcmd, check=True, cwd=rundir)
-                print(f"Archive created successfully.")
+                subprocess.run(arrcmd, check=True, cwd=rundir, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             except subprocess.CalledProcessError as e:
                 print(f"Error while creating archive: {e}")
             except FileNotFoundError:
@@ -45,7 +44,7 @@ def pack_files( src_files : list[str]):
 
         r.append( [ [fname_bin] , [ f"{fname_bin}.{ext}" for ext in ARCHS_EXTS] ] )
 
-        print("* Done *")
+        print("* Done *\n")
 
     return r
 
@@ -68,11 +67,13 @@ def process_rdrop( source_fnames , transformed_fnames ):
 
     tool_drop_name = "pushk2pre3rdrop"
 
-    print( "\n###", source_fnames )
-    print( "\n###", transformed_fnames )
-
     transformed_tables = [fname + ".rdrop.bin" for fname in transformed_fnames]
-    print( "\n###", transformed_tables )
+
+    print( "\n### PROCESS R-DROP ###" )
+
+    # print( "\n###", source_fnames )
+    # print( "\n###", transformed_fnames )
+    # print( "\n###", transformed_tables )
 
     for idx in range(len(source_fnames)):
         src = source_fnames[idx]
@@ -82,19 +83,20 @@ def process_rdrop( source_fnames , transformed_fnames ):
         cfg = find_config( src )
         if None == cfg:
             return None
-        # print( cfg )
+
         arr_cmd = [ tool_drop_name, "s", src, tbl, dst, str(cfg[0]), str(cfg[1]), str(cfg[2]) ]
         print( "\nCalling : " , arr_cmd )
         try:
-            logfile = tbl + "_log.txt"
-            with open(logfile, "w") as f:   # cwd=rundir
-                subprocess.run(arr_cmd, check=True, stdout=f )  # , stderr=subprocess.STDOUT
+            # , stderr=subprocess.STDOUT , stdout=f
+            subprocess.run(arr_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL )
         except subprocess.CalledProcessError as e:
             print(f"Error while creating rdrop-table: {e}")
             return None
         except FileNotFoundError:
             print("utility not found. Make sure it is installed and in PATH.")
             return None
+
+    print( "\n" )
 
     return transformed_tables
 
@@ -135,7 +137,7 @@ def process(src_dir, dst_dir):
 
     # Restored
 
-
+# ----------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
 
     print( "LOCAL_DIR   : ", glbdefs.LOCAL_DIR )

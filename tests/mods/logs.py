@@ -58,15 +58,17 @@ def gen_archsseps():
 
 
 def generatelog_src_pck( archs ):
-    print("| File Name  | bin    | " + gen_archshdrs() )
-    print("|------------|--------|"  + gen_archsseps() )
+    ret = []
+    ret.append("| File Name  | bin    | " + gen_archshdrs() )
+    ret.append("|------------|--------|"  + gen_archsseps() )
     for item in archs:
         origfile = os.path.basename( item[0][0] )
         txt = "| " + origfile + " | " + str(os.path.getsize( item[0][0] )) + " | "
         for filepck in item[1]:
             txt += str(os.path.getsize( filepck ))
             txt += " |"
-        print( txt )
+        ret.append( txt )
+    return ret
 
 
 def arr_to_console( arrlines : list[str]):
@@ -84,31 +86,36 @@ def generate_logs(
         original_archs,
         transformed_archs ):
 
-    # Arch info
+    file_log_archs = os.path.join(folder_results, "arch_ver.txt") 
+    file_log_srcfiles = os.path.join(folder_results, "srcfiles.txt") 
+    file_log_origpacked = os.path.join(folder_results, "origpacked.txt") 
+    file_log_rtblfiles = os.path.join(folder_results, "rtblfiles.txt") 
+    file_log_transfiles = os.path.join(folder_results, "transfiles.txt") 
+    file_log_transbench = os.path.join(folder_results, "transbench.txt") 
+
+
+    # 1. System Archivers Info / save list to log file
     arrtxt_archs = generatelog_archs()
     # arr_to_console(arrtxt_archs)
-    file_log_archs = os.path.join(folder_results, "arch_ver.txt") 
     arr_to_file(arrtxt_archs, file_log_archs)
 
-    # Original files
+    # 2. Check original files props / save log
     marktbl = generatelog_src( original_files )
-    file_log_srcfiles = os.path.join(folder_results, "srcfiles.txt") 
     arr_to_file(marktbl, file_log_srcfiles)
 
-    # Benchmark results table
-    print()
-    generatelog_src_pck ( original_archs )
+    # 3. Benchmark : packed original files / results table to log
+    marktbl = generatelog_src_pck ( original_archs )
+    arr_to_file(marktbl, file_log_origpacked)
 
-    # RDROP Tables
+    # 4. Generate RDROP Files and Tables / save log file
     marktbl = generatelog_src( transformed_tables )
-    file_log_rtblfiles = os.path.join(folder_results, "rtblfiles.txt") 
     arr_to_file(marktbl, file_log_rtblfiles)
 
-    # Transformed files
+    # 5. Transformed files props
     marktbl = generatelog_src( transformed_fnames )
-    file_log_transfiles = os.path.join(folder_results, "transfiles.txt") 
     arr_to_file(marktbl, file_log_transfiles)
 
-    print()
-    generatelog_src_pck ( transformed_archs )
+    # 6. Benchmark : after rdrop
+    marktbl = generatelog_src_pck ( transformed_archs )
+    arr_to_file(marktbl, file_log_transbench)
 
