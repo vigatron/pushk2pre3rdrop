@@ -23,3 +23,15 @@
 #         text=True
 #     )
 #     self.assertNotEqual(result.returncode, 0)
+
+# src_files = [os.path.basename(f) for f in src_files_fullpath]
+
+# # RDrop processing
+# print()
+# print("| Original File Name  | Result RDrop Table  | Result File Name  |")
+# print("|---------------------|---------------------|-------------------|")
+
+# # dropped.bin + rdrop 
+# print()
+# print("| File Name  | + RDrop Tbl  | bin    | ")
+# print("|------------|--------------|--------|--------|--------|--------|--------|--------|--------|--------|--------|")

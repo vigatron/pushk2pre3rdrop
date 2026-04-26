@@ -66,25 +66,31 @@ def transformed_files_names( src_files : list[str]) -> list[str] :
 
 def process_rdrop( source_fnames , transformed_fnames ):
 
-    transformed_tables = [fname + ".rdrop.bin" for fname in transformed_fnames]
-    print( "###", source_fnames )
-    print( "###", transformed_fnames )
-    print( "###", transformed_tables )
-
     tool_drop_name = "pushk2pre3rdrop"
 
-    for src, tbl , dst  in zip(source_fnames, transformed_tables, transformed_fnames):
+    print( "\n###", source_fnames )
+    print( "\n###", transformed_fnames )
+
+    transformed_tables = [fname + ".rdrop.bin" for fname in transformed_fnames]
+    print( "\n###", transformed_tables )
+
+    for idx in range(len(source_fnames)):
+        src = source_fnames[idx]
+        tbl = transformed_tables[idx]
+        dst = transformed_fnames[idx]
+        
         cfg = find_config( src )
         if None == cfg:
             return None
         # print( cfg )
         arr_cmd = [ tool_drop_name, "s", src, tbl, dst, str(cfg[0]), str(cfg[1]), str(cfg[2]) ]
-        print( "Calling : " , arr_cmd )
+        print( "\nCalling : " , arr_cmd )
         try:
-            subprocess.run(arr_cmd, check=True )  # cwd=rundir
-            print(f"Archive created successfully.")
+            logfile = tbl + "_log.txt"
+            with open(logfile, "w") as f:   # cwd=rundir
+                subprocess.run(arr_cmd, check=True, stdout=f )  # , stderr=subprocess.STDOUT
         except subprocess.CalledProcessError as e:
-            print(f"Error while creating archive: {e}")
+            print(f"Error while creating rdrop-table: {e}")
             return None
         except FileNotFoundError:
             print("utility not found. Make sure it is installed and in PATH.")
@@ -117,7 +123,13 @@ def process(src_dir, dst_dir):
     transformed_archs = pack_files(transformed_fnames)
 
     # Generate Logs
-    generate_logs( original_files, transformed_fnames, transformed_tables , original_archs, transformed_archs )
+    generate_logs(
+        glbdefs.RESULTS_DIR,
+        original_files,
+        transformed_fnames,
+        transformed_tables,
+        original_archs,
+        transformed_archs )
     
     return True
 
