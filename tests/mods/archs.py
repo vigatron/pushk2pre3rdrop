@@ -2,6 +2,17 @@ import subprocess
 import re
 
 
+# arj a -m1 "$1".arj "$1"
+# 7z -mx9 a "$1".7z "$1"
+# rar a -m5 "$1".rar "$1"
+# zip -9 "$1".zip "$1"
+
+# bzip2 -k -9 "$1"
+# gzip -k -9 "$1"
+# xz -k -9 "$1"
+# lzma -k -9 "$1"
+
+
 ARCHS_EXTS = [
     "zip", "rar", "lzma", "7z", "xz",
     "zst", "br", "bz2", "gz", "arj" ]

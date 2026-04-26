@@ -1,58 +1,26 @@
 import glob
 import os
-import glbdefs
 import subprocess
 import shutil
 
-from archs import ARCHS_APPS , ARCHS_EXTS
-from archs import packexts, packcmds
+import mods.glbdefs as glbdefs
 
-from cfgexamples import CFGDROP, getFilesInFolder, find_config
+from mods.archs import ARCHS_APPS , ARCHS_EXTS
+from mods.archs import packexts, packcmds
 
-from logs import generate_logs
+from mods.cfgexamples import find_config, step_prepare_results_folders, copy_multiple_files
+from mods.cfgexamples import CFGDROP, getFilesInFolder
+from mods.cfgexamples import clean_results_folder
 
-
-# Scan examples folder
-
-# Move each example to dedicated folder in "results"
-
+from mods.logs import generate_logs
 
 
+# 1) Sources Defined as EXAMPLES_FILES instead of Scan 'examples' folder
+# 2) Move each example to dedicated folder in "results"
 
 
 
-def cleanfolder( folder ):
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        if os.path.isfile(file_path):
-            os.remove(file_path)
-        else:
-            shutil.rmtree(file_path)
-
-
-def step_prepare_results_folders( arr_original_files , dst_dir ):
-
-    # Prepare results folder
-    shutil.rmtree('results')
-    os.mkdir('results')
-
-    # Create subfolders
-    r = []
-    for file in arr_original_files:
-        basefile = os.path.basename(file)
-        dst_folder = os.path.join(dst_dir, basefile )
-        os.mkdir(dst_folder)
-        dst_file = os.path.join(dst_folder,basefile)
-        r.append(dst_file)
-
-    return r
-
-
-def copy_examples( arr_src_file : list[str], arr_dst_files : list[str]):
-    # Copy *.bin files to 'results/[dedicated]/*' folder
-    for src, dst in zip(arr_src_file, arr_dst_files):
-        shutil.copy2(src, dst)
-
+# ----------------------------------------------------------------------------------------------------------
 
 def pack_files( src_files : list[str]):
     r = []
@@ -84,7 +52,6 @@ def pack_files( src_files : list[str]):
 
 
 # ----------------------------------------------------------------------------------------------------------
-
 def transformed_files_names( src_files : list[str]) -> list[str] :
     modified_files = []
     for f in src_files:
@@ -93,7 +60,10 @@ def transformed_files_names( src_files : list[str]) -> list[str] :
     return modified_files
 
 
+# ----------------------------------------------------------------------------------------------------------
 # Process RDROP
+# ----------------------------------------------------------------------------------------------------------
+
 def process_rdrop( source_fnames , transformed_fnames ):
     
     transformed_tables = [fname + ".rdrop.bin" for fname in transformed_fnames]
@@ -129,7 +99,7 @@ def process(src_dir, dst_dir):
     # Scan original .bin files
     original_files = glob.glob(os.path.join(src_dir, "*.bin"))
     results_files = step_prepare_results_folders( original_files , dst_dir)
-    copy_examples(original_files,results_files)
+    copy_multiple_files(original_files,results_files)
 
     # Pack original
     original_archs = pack_files(results_files)
@@ -154,7 +124,13 @@ def process(src_dir, dst_dir):
 
 if __name__ == "__main__":
 
+    print( "LOCAL_DIR   : ", glbdefs.LOCAL_DIR )
+    print( "ROOT_DIR    : ", glbdefs.ROOT_DIR  )
+    print( "BUILD_DIR   : ", glbdefs.BUILD_DIR )
+    print( "EXMPLS_DIR  : ", glbdefs.EXMPLS_DIR )
+    print( "RESULTS_DIR : ", glbdefs.RESULTS_DIR )
+
     # Clear results
-    # shutil.rmtree(glbdefs.RESULTS_DIR)
-    cleanfolder(glbdefs.RESULTS_DIR)
-    process(glbdefs.EXAMPLES_DIR , glbdefs.RESULTS_DIR )
+    clean_results_folder(glbdefs.RESULTS_DIR)
+
+    process(glbdefs.EXMPLS_DIR , glbdefs.RESULTS_DIR )
