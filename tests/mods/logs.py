@@ -1,8 +1,8 @@
-from archs import get_arr_info , get_arr_filtered_version
-from archs import ARCHS_APPS
-
 import os
 import hashlib
+
+from mods.archs import get_arr_info , get_arr_filtered_version
+from mods.archs import ARCHS_APPS
 
 
 

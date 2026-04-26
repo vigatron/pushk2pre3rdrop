@@ -49,7 +49,7 @@
     },
     "python-envs.pythonProjects": [
         {
-            "path": "tests/archs.py",
+            "path": "tests/mods/archs.py",
             "envManager": "ms-python.python:venv",
             "packageManager": "ms-python.python:pip"
         }

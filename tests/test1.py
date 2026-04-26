@@ -12,14 +12,9 @@ RESULTS_DIR = os.path.join(ROOT_DIR, "results")
 TOOL_NAME = "pushk2pre3rdrop"
 TOOL_NAME_FULL = os.path.join(BUILD_DIR, TOOL_NAME)
 
-# EXAMPLES_DIR = os.path.join(BASE_DIR, "..", "examples")
-# EXAMPLE_OFFS = "6144"
-# os.path.join(EXAMPLES_DIR, "trix1.scr") , EXAMPLE_OFFS
-
-# 
-EXPECTED1 = ["37fb285e628b0c085f5581bc3d340d24", 16384]
-MD5_OUT_RESULT_EXPECTED = "456"
-MD5_OUT_RTABLE_EXPECTED = ""
+#
+EXAMPLE1_FNAME = "example7b.bin"
+EXAMPLE1_EXPECTED = ["37fb285e628b0c085f5581bc3d340d24", 16384]
 
 
 def FILEMD5Sum(fname):
@@ -33,33 +28,15 @@ class TestMyProgram(unittest.TestCase):
     def test_version(self):
         result = subprocess.run( [TOOL_NAME_FULL, "v"], capture_output=True, text=True )
         self.assertEqual(result.returncode, 0)
-        # self.assertIn("7E8BC0800080F0807A8BC288F2FBFBE400000000000000000000000000000000", result.stdout)
 
 
     def test_full(self):
-        file_name = os.path.join(EXAMPLES_DIR, "example7b.bin")
+        file_name = os.path.join(EXAMPLES_DIR, EXAMPLE1_FNAME)
         real_filesize = os.path.getsize(file_name)
         real_md5 = FILEMD5Sum( file_name )
-        self.assertEqual(real_filesize, EXPECTED1[1])
-        self.assertEqual(real_md5, EXPECTED1[0])
+        self.assertEqual(real_filesize, EXAMPLE1_EXPECTED[1])
+        self.assertEqual(real_md5, EXAMPLE1_EXPECTED[0])
 
-
-    # def test_success_case_s(self):
-    #     result = subprocess.run(
-    #         [os.path.join(BUILD_DIR, TOOL_NAME), "s", os.path.join(EXAMPLES_DIR, "trix1.scr"), EXAMPLE_OFFS],
-    #         capture_output=True,
-    #         text=True
-    #     )
-    #     self.assertEqual(result.returncode, 0)
-    #     self.assertIn("56", result.stdout)
-
-    # def test_error_case(self):
-    #     result = subprocess.run(
-    #         [os.path.join(BUILD_DIR, TOOL_NAME), "n", os.path.join(BASE_DIR, "..", "exampl", "trix1.scr"), EXAMPLE_OFFS],
-    #         capture_output=True,
-    #         text=True
-    #     )
-    #     self.assertNotEqual(result.returncode, 0)
 
 if __name__ == "__main__":
     unittest.main()
