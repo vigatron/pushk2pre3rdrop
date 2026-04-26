@@ -65,7 +65,7 @@ def transformed_files_names( src_files : list[str]) -> list[str] :
 # ----------------------------------------------------------------------------------------------------------
 
 def process_rdrop( source_fnames , transformed_fnames ):
-    
+
     transformed_tables = [fname + ".rdrop.bin" for fname in transformed_fnames]
     print( "###", source_fnames )
     print( "###", transformed_fnames )
@@ -92,9 +92,11 @@ def process_rdrop( source_fnames , transformed_fnames ):
 
     return transformed_tables
 
-
-
+# ----------------------------------------------------------------------------------------------------------
 def process(src_dir, dst_dir):
+
+    # Clear results
+    clean_results_folder(dst_dir)
 
     # Scan original .bin files
     original_files = glob.glob(os.path.join(src_dir, "*.bin"))
@@ -129,8 +131,5 @@ if __name__ == "__main__":
     print( "BUILD_DIR   : ", glbdefs.BUILD_DIR )
     print( "EXMPLS_DIR  : ", glbdefs.EXMPLS_DIR )
     print( "RESULTS_DIR : ", glbdefs.RESULTS_DIR )
-
-    # Clear results
-    clean_results_folder(glbdefs.RESULTS_DIR)
 
     process(glbdefs.EXMPLS_DIR , glbdefs.RESULTS_DIR )

@@ -12,15 +12,15 @@ import re
 # xz -k -9 "$1"
 # lzma -k -9 "$1"
 
+ARCHS_APPS = [
+    "zip", "rar", "lzma", "7z", "xz",
+    "zstd", "brotli", "bzip2", "gzip", "arj" ]
+
 
 ARCHS_EXTS = [
     "zip", "rar", "lzma", "7z", "xz",
     "zst", "br", "bz2", "gz", "arj" ]
 
-ARCHS_APPS = [
-    "zip", "rar", "lzma", "7z", "xz",
-    "zstd", "brotli", "bzip2", "gzip", "arj"
-]
 
 ARCH_CMDS = {
     "zip":   ["zip", "--version"],
@@ -35,11 +35,12 @@ ARCH_CMDS = {
     "arj":   ["arj"]
 }
 
+# ----------------------------------------------------------------------------------------------------------
 def packexts(fname : "str") -> list:
     exts = [f".{ext}" for ext in ARCHS_EXTS]
     return exts
 
-
+# ----------------------------------------------------------------------------------------------------------
 def packcmds(fname : str, packnames : list[str]) -> list:
     cmd_zip    = [ "zip"        , "-9"          , f"{fname}{packnames[0]}", fname]
     cmd_rar    = [ "rar"        , "-m5"         , "a"   , f"{fname}{packnames[1]}", fname]
@@ -65,7 +66,7 @@ def packcmds(fname : str, packnames : list[str]) -> list:
         cmd_arj ]
     return arr
 
-
+# ----------------------------------------------------------------------------------------------------------
 def get_info_arch(app: str) -> str:
     try:
         if app in ("rar", "7z"):
@@ -102,15 +103,25 @@ def get_info_arch(app: str) -> str:
         return lines[0] if lines else "unknown"
 
     except FileNotFoundError:
-        return "not found"
+        return None
     except Exception as e:
         return f"error: {e}"
 
-
+# ----------------------------------------------------------------------------------------------------------
 def get_arr_info():
-    archver_versions: list[str] = [f"{get_info_arch(app)}" for app in ARCHS_APPS]
-    return archver_versions
+    ret = []
+    for app in ARCHS_APPS:
+        ver = get_info_arch(app)
+        if ver == None:
+            print(app, " - Not found !")
+            return None
+        if "error" in ver:
+            print(ver)
+            return None 
+        ret.append(ver)
+    return ret
 
+# ----------------------------------------------------------------------------------------------------------
 def get_arr_filtered_version( arr: list[str]):
     filtered = []
     for line in arr:
@@ -122,9 +133,11 @@ def get_arr_filtered_version( arr: list[str]):
 
     return filtered
 
-
+# ----------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
-    
-    for vermsg in get_arr_info():
+    arrinfo = get_arr_info()
+    if None == arrinfo:
+        exit(1)
+    for vermsg in arrinfo:
        print(f"{vermsg}")
 
