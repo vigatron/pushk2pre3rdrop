@@ -16,7 +16,6 @@
 #include "rdropdbg.hpp"
 
 // ---------------------------------------
-
 class VHRDropLayers {
 
 public:
@@ -151,6 +150,7 @@ public:
     // Write data to file
     out.write(reinterpret_cast<const char *>(data.data()),
               static_cast<std::streamsize>(data.size()));
+
     if (!out) {
       return false; // Write error
     }
@@ -159,8 +159,6 @@ public:
   }
 
 private:
-  // logger
-  RDBG dbg;
   //
   std::vector<uint8_t> artefact_bin;
   std::vector<uint8_t> artefact_rtbl;
