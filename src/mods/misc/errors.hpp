@@ -13,5 +13,5 @@ enum enError {
   eError_BoundsCheckFailed,
   eError_ProcessError,
   eError_CantWrite_Outfile,
-  eError_CantWrite_Outtbl
+  eError_CantWrite_Outtbl,
 };
