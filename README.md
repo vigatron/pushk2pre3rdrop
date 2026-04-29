@@ -164,9 +164,9 @@ using the same *filter configuration parameters*.
 | example9bdr.bin | 16384 | a330ae5d3aa4ebedd31a93f2747c5b7a |
 | example10bdr.bin | 16384 | a1143482d7b07abd139c14b593164601 |
 
-***Verification notes:***
-*Restored files are byte-identical to the original source files (MD5 verified).*
-*All transformations are reversible!*  *( Все трансформации обратимы! )*
+***Verification notes:***  
+*Restored files are byte-identical to the original source files (MD5 verified).*  
+*All transformations are reversible!*  *( Все трансформации обратимы! )*  
 
 ---
 
