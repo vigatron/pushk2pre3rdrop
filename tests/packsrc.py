@@ -14,6 +14,7 @@ from mods.cfgexamples import clean_results_folder
 
 from mods.logs import generate_logs
 
+from mods.fnames import transformed_files_names, restored_files_names
 
 # 1) Sources Defined as EXAMPLES_FILES instead of Scan 'examples' folder
 # 2) Move each example to dedicated folder in "results"
@@ -26,12 +27,12 @@ def pack_files( src_files : list[str]):
     r = []
     # pack each file
     for fname_bin in src_files:
-        print( "Processing : ", fname_bin )
+        print( "Multipack : ", fname_bin )
         arrexts = packexts( os.path.basename(fname_bin) )
         arrcmds = packcmds( os.path.basename(fname_bin) , arrexts )
 
         for arrcmd in arrcmds:
-            print( arrcmd )
+            # print( arrcmd )
             rundir = os.path.dirname(fname_bin)
             try:
                 subprocess.run(arrcmd, check=True, cwd=rundir, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -40,36 +41,23 @@ def pack_files( src_files : list[str]):
             except FileNotFoundError:
                 print( arrcmd )
                 print("utility not found. Make sure it is installed and in PATH.")
-        
 
         r.append( [ [fname_bin] , [ f"{fname_bin}.{ext}" for ext in ARCHS_EXTS] ] )
-
-        print("* Done *\n")
+        # print("* Done *\n")
 
     return r
-
-
-
-# ----------------------------------------------------------------------------------------------------------
-def transformed_files_names( src_files : list[str]) -> list[str] :
-    modified_files = []
-    for f in src_files:
-        name, ext = os.path.splitext(f)  # разделяем имя и расширение
-        modified_files.append(name + "d" + ext)
-    return modified_files
-
 
 # ----------------------------------------------------------------------------------------------------------
 # Process RDROP
 # ----------------------------------------------------------------------------------------------------------
 
-def process_rdrop( source_fnames , transformed_fnames ):
+tool_drop_name = "pushk2pre3rdrop"
 
-    tool_drop_name = "pushk2pre3rdrop"
 
-    transformed_tables = [fname + ".rdrop.bin" for fname in transformed_fnames]
+def process_rdrop( source_fnames , transformed_tables, transformed_fnames ):
 
-    print( "\n### PROCESS R-DROP ###" )
+    print()
+    print( "### PROCESS R-DROP ###" )
 
     # print( "\n###", source_fnames )
     # print( "\n###", transformed_fnames )
@@ -82,23 +70,22 @@ def process_rdrop( source_fnames , transformed_fnames ):
         
         cfg = find_config( src )
         if None == cfg:
-            return None
+            return False
 
         arr_cmd = [ tool_drop_name, "s", src, tbl, dst, str(cfg[0]), str(cfg[1]), str(cfg[2]) ]
-        print( "\nCalling : " , arr_cmd )
+        print( "RDrop for " , src )
         try:
             # , stderr=subprocess.STDOUT , stdout=f
             subprocess.run(arr_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL )
         except subprocess.CalledProcessError as e:
             print(f"Error while creating rdrop-table: {e}")
-            return None
+            return False
         except FileNotFoundError:
             print("utility not found. Make sure it is installed and in PATH.")
-            return None
+            return False
 
-    print( "\n" )
-
-    return transformed_tables
+    print()
+    return True
 
 # ----------------------------------------------------------------------------------------------------------
 def process(src_dir, dst_dir):
@@ -111,15 +98,20 @@ def process(src_dir, dst_dir):
     results_files = step_prepare_results_folders( original_files , dst_dir)
     copy_multiple_files(original_files,results_files)
 
-    # Pack original
-    original_archs = pack_files(results_files)
-
-    # Generate DROP Transform
+    # Generate RDROP Transform
     transformed_fnames = transformed_files_names( results_files )
-    transformed_tables = process_rdrop( results_files , transformed_fnames )
-    if not transformed_tables:
+    transformed_tables = [fname + ".rdrop.bin" for fname in transformed_fnames]
+    result_rdrop = process_rdrop( results_files , transformed_tables, transformed_fnames )
+    if not result_rdrop:
         print( "ERROR !")
         return False
+
+    # Restore from RDROP
+    fnames_restored = restored_files_names(transformed_fnames)
+    print("restored", fnames_restored)
+
+    # Pack original
+    original_archs = pack_files(results_files)
 
     # Pack transformed
     transformed_archs = pack_files(transformed_fnames)
@@ -138,12 +130,16 @@ def process(src_dir, dst_dir):
     # Restored
 
 # ----------------------------------------------------------------------------------------------------------
-if __name__ == "__main__":
-
+def printvars():
     print( "LOCAL_DIR   : ", glbdefs.LOCAL_DIR )
     print( "ROOT_DIR    : ", glbdefs.ROOT_DIR  )
     print( "BUILD_DIR   : ", glbdefs.BUILD_DIR )
     print( "EXMPLS_DIR  : ", glbdefs.EXMPLS_DIR )
     print( "RESULTS_DIR : ", glbdefs.RESULTS_DIR )
+    print()
 
+
+# ----------------------------------------------------------------------------------------------------------
+if __name__ == "__main__":
+    printvars()
     process(glbdefs.EXMPLS_DIR , glbdefs.RESULTS_DIR )
