@@ -5,7 +5,7 @@ project(pushk2pre3rdrop LANGUAGES CXX)
 
 include_directories(${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/mods
-                    ${CMAKE_SOURCE_DIR}/src/misc)
+                    ${CMAKE_SOURCE_DIR}/src/mods/misc)
 
 
 # Опции компиляции
@@ -16,18 +16,20 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Источники
 file(GLOB_RECURSE source_list
-    src/*.cpp
-    src/*.hpp
-	src/mods/*
-	src/misc/*
+    src/*
+    src/mods/*
+    src/mods/misc/*
 )
 
 # Исполняемый файл
-add_executable(${PROJECT_NAME} ${source_list})
+add_executable(${PROJECT_NAME} ${source_list}
+    src/funcsplit.cpp
+    src/funcmerge.cpp
+)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE 
     APP_NAME_STR="${PROJECT_NAME}"
-	APP_VERSION=1
+    APP_VERSION=1
 )
 
 # Установка бинарника

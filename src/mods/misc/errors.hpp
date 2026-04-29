@@ -5,6 +5,7 @@ enum enError {
   eUnsupported,
   eError_NoParams,
   eError_InvalidCommand,
+  eError_InvalidParamsCount,
   eError_InvalidParams,
   eError_InvalidFile_Input,
   eError_InvalidFile_rtbl,
@@ -13,5 +14,5 @@ enum enError {
   eError_BoundsCheckFailed,
   eError_ProcessError,
   eError_CantWrite_Outfile,
-  eError_CantWrite_Outtbl
+  eError_CantWrite_Outtbl,
 };

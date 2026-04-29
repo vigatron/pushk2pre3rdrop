@@ -1,0 +1,12 @@
+|  Archiver  |  Version  |  Info  |
+|--------|-----------|--------|
+|  zip  |  3.0  |  This is Zip 3.0 (July 5th 2008), by Info-ZIP.  |
+|  rar  |  7.00  |  RAR 7.00   Copyright (c) 1993-2024 Alexander Roshal   26 Feb 2024  |
+|  lzma  |  5.4.5  |  xz (XZ Utils) 5.4.5  |
+|  7z  |  23.01  |  7-Zip 23.01 (x64) : Copyright (c) 1999-2023 Igor Pavlov : 2023-06-20  |
+|  xz  |  5.4.5  |  xz (XZ Utils) 5.4.5  |
+|  zstd  |  1.5.5  |  *** Zstandard CLI (64-bit) v1.5.5, by Yann Collet ***  |
+|  brotli  |  1.1.0  |  brotli 1.1.0  |
+|  bzip2  |  1.0.8  |  bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.  |
+|  gzip  |  1.12  |  gzip 1.12  |
+|  arj  |  3.10  |  ARJ32 v 3.10, Copyright (c) 1998-2004, ARJ Software Russia.  |

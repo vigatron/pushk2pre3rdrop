@@ -37,14 +37,31 @@
             // "64"
             //
             //
-            "s",
-            "../examples/example10b.bin",
-            "../results/example10b.bin/example10bd.bin.rdrop",
-            "../results/example10b.bin/example10bd.bin",
-            "0",
-            "256",
-            "64"
+            // "s",
+            // "../examples/example10b.bin",
+            // "../results/example10b.bin/example10bd.bin.rdrop",
+            // "../results/example10b.bin/example10bd.bin",
+            // "0",
+            // "256",
+            // "64"
             //
+            // *** Merge option
+            //
+            // "m",
+            // "../results/example7b.bin/example7bd.bin",
+            // "../results/example7b.bin/example7bd.bin.rdrop.bin",
+            // "../results/example7b.bin/example7bdr.bin",
+            // "0",
+            // "256",
+            // "64"
+            //
+            "m",
+            "../results/example8.bin/example8d.bin",
+            "../results/example8.bin/example8d.bin.rdrop.bin",
+            "../results/example8.bin/example8dr.bin",
+            "0",
+            "8",
+            "2048"
         ]
     },
     "python-envs.pythonProjects": [

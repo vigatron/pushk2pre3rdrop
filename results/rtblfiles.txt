@@ -1,0 +1,6 @@
+| File Name  | Size   | MD5    |
+|------------|--------|--------|
+| example7bd.bin.rdrop.bin | 398 | e7bec371460867efdd2290e45a4ffa3b |
+| example8d.bin.rdrop.bin | 18 | 3de54bf07901356534a41f250d9c4fe3 |
+| example9bd.bin.rdrop.bin | 358 | fda2bb8fc7604e6f9b0198eb699c03b4 |
+| example10bd.bin.rdrop.bin | 212 | 2d27197d29f8d57f7f7e07ba904456eb |

@@ -25,3 +25,5 @@ public:
 private:
   uint8_t id;
 };
+
+extern RDBG dbg;
