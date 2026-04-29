@@ -81,8 +81,9 @@ def arr_to_file(lines : list[str], fname : str):
 def generate_logs(
         folder_results : str,
         original_files,
-        transformed_fnames,
         transformed_tables,
+        transformed_fnames,
+        fnames_restored,
         original_archs,
         transformed_archs ):
 
@@ -92,7 +93,7 @@ def generate_logs(
     file_log_rtblfiles = os.path.join(folder_results, "rtblfiles.txt") 
     file_log_transfiles = os.path.join(folder_results, "transfiles.txt") 
     file_log_transbench = os.path.join(folder_results, "transbench.txt") 
-
+    file_log_restored = os.path.join(folder_results, "restored.txt")
 
     # 1. System Archivers Info / save list to log file
     arrtxt_archs = generatelog_archs()
@@ -100,22 +101,28 @@ def generate_logs(
     arr_to_file(arrtxt_archs, file_log_archs)
 
     # 2. Check original files props / save log
-    marktbl = generatelog_src( original_files )
+    marktbl = generatelog_src(original_files)
     arr_to_file(marktbl, file_log_srcfiles)
 
-    # 3. Benchmark : packed original files / results table to log
-    marktbl = generatelog_src_pck ( original_archs )
-    arr_to_file(marktbl, file_log_origpacked)
-
     # 4. Generate RDROP Files and Tables / save log file
-    marktbl = generatelog_src( transformed_tables )
+    marktbl = generatelog_src(transformed_tables)
     arr_to_file(marktbl, file_log_rtblfiles)
 
     # 5. Transformed files props
-    marktbl = generatelog_src( transformed_fnames )
+    marktbl = generatelog_src(transformed_fnames)
     arr_to_file(marktbl, file_log_transfiles)
 
-    # 6. Benchmark : after rdrop
+    # 6. Recovered files props
+    marktbl = generatelog_src(fnames_restored)
+    arr_to_file(marktbl, file_log_restored)
+
+    # Benchmark : packed original files / results table to log
+    marktbl = generatelog_src_pck ( original_archs )
+    arr_to_file(marktbl, file_log_origpacked)
+
+    # Benchmark : after rdrop
     marktbl = generatelog_src_pck ( transformed_archs )
     arr_to_file(marktbl, file_log_transbench)
 
+if __name__ == "__main__":
+    print("its a mod file, exiting ...")

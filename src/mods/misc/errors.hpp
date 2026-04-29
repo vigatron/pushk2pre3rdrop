@@ -5,6 +5,7 @@ enum enError {
   eUnsupported,
   eError_NoParams,
   eError_InvalidCommand,
+  eError_InvalidParamsCount,
   eError_InvalidParams,
   eError_InvalidFile_Input,
   eError_InvalidFile_rtbl,

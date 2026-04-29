@@ -13,8 +13,9 @@ int func_merge(int argc, char *argv[]) {
 
   bool parseok;
 
-  if (argc != 8)
-    return eError_InvalidParams;
+  if (argc != 8) {
+    return verrmsg(eError_InvalidParamsCount, "func_merge, argc count");
+  }
 
   // Check source file
   std::string fname_inp(argv[2]);
@@ -64,6 +65,5 @@ int func_merge(int argc, char *argv[]) {
   if (!memblksrc.SaveToFile(fname_out))
     return verrmsg(eError_CantWrite_Outfile, "save results issue");
 
-  return eUnsupported;
   return eOk;
 }

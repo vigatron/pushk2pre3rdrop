@@ -71,6 +71,25 @@ where :
 - Split → RDrop + Transformed (MD5)
 
 ---
+## 🔄 Data Flow
+
+---
+### 📤 Encoding (Split mode)
+📁 **OriginalFile** is split according to *filter configuration parameters* into:
+
+➡️ `RDropTable + TransformedFile`
+
+---
+
+### 📥 Decoding (Merge mode)
+📁 **OriginalFile** can be fully restored from:
+
+⬅️ `RDropTable + TransformedFile`
+
+using the same *filter configuration parameters*.
+
+
+---
 
 ### Pipeline Results
 
@@ -115,18 +134,8 @@ where :
 | example9b.bin | 16384 | a330ae5d3aa4ebedd31a93f2747c5b7a |
 | example10b.bin | 16384 | a1143482d7b07abd139c14b593164601 |
 
-### Compressed original files
 
-| File Name  | bin    | zip |rar |lzma |7z |xz |zstd |brotli |bzip2 |gzip |arj |
-|------------|--------|---|---|---|---|---|---|---|---|---|---|
-| example7b.bin | 16384 | 2908 |2784 |1723 |1828 |1768 |2550 |2033 |3381 |2764 |2940 |
-| example8.bin | 16384 | 2096 |1906 |1688 |1780 |1736 |1691 |1728 |1949 |1953 |2071 |
-| example9b.bin | 16384 | 1584 |1384 |1229 |1347 |1276 |1252 |1210 |1673 |1441 |1553 |
-| example10b.bin | 16384 | 1717 |1546 |1370 |1474 |1416 |1301 |1342 |1619 |1572 |1682 |
-
----
-
-## RDrop Transformation !
+### RDrop Transformation table
 
 | File Name  | Size   | MD5    |
 |------------|--------|--------|
@@ -135,29 +144,8 @@ where :
 | example9bd.bin.rdrop.bin | 358 | fda2bb8fc7604e6f9b0198eb699c03b4 |
 | example10bd.bin.rdrop.bin | 212 | 2d27197d29f8d57f7f7e07ba904456eb |
 
-***Notes:***
 
----
-## 🔄 Data Flow
-
----
-### 📤 Encoding (Split mode)
-📁 **OriginalFile** is split according to *filter configuration parameters* into:
-
-➡️ `RDropTable + TransformedFile`
-
----
-
-### 📥 Decoding (Merge mode)
-📁 **OriginalFile** can be fully restored from:
-
-⬅️ `RDropTable + TransformedFile`
-
-using the same *filter configuration parameters*.
-
----
-
-### Transformed files before compression
+### Transformed files
 
 | File Name  | Size   | MD5    |
 |------------|--------|--------|
@@ -167,7 +155,32 @@ using the same *filter configuration parameters*.
 | example10bd.bin | 16384 | 43fdfe3c995b48a50ed100a3a647fdfc |
 
 
-### Transformed files after compression
+### Restored files
+
+| File Name  | Size   | MD5    |
+|------------|--------|--------|
+| example7bdr.bin | 16384 | 37fb285e628b0c085f5581bc3d340d24 |
+| example8dr.bin | 16384 | dca17a92e634a3c93a458f37ea6629bb |
+| example9bdr.bin | 16384 | a330ae5d3aa4ebedd31a93f2747c5b7a |
+| example10bdr.bin | 16384 | a1143482d7b07abd139c14b593164601 |
+
+***Verification notes:***
+*Restored files are byte-identical to the original source files (MD5 verified).*
+*All transformations are reversible!*  *( Все трансформации обратимы! )*
+
+---
+
+### Compression benchmark — original files
+
+| File Name  | bin    | zip |rar |lzma |7z |xz |zstd |brotli |bzip2 |gzip |arj |
+|------------|--------|---|---|---|---|---|---|---|---|---|---|
+| example7b.bin | 16384 | 2908 |2784 |1723 |1828 |1768 |2550 |2033 |3381 |2764 |2940 |
+| example8.bin | 16384 | 2096 |1906 |1688 |1780 |1736 |1691 |1728 |1949 |1953 |2071 |
+| example9b.bin | 16384 | 1584 |1384 |1229 |1347 |1276 |1252 |1210 |1673 |1441 |1553 |
+| example10b.bin | 16384 | 1717 |1546 |1370 |1474 |1416 |1301 |1342 |1619 |1572 |1682 |
+
+
+### Compression benchmark — transformed files
 
 | File Name  | bin    | zip |rar |lzma |7z |xz |zstd |brotli |bzip2 |gzip |arj |
 |------------|--------|---|---|---|---|---|---|---|---|---|---|
@@ -176,7 +189,12 @@ using the same *filter configuration parameters*.
 | example9bd.bin | 16384 | 1194 |1013 |933 |1057 |980 |865 |858 |1142 |1049 |1169 |
 | example10bd.bin | 16384 | 898 |741 |689 |813 |736 |663 |672 |883 |752 |876 |
 
-Links:
+---
 
-.cells format :
-PUSHK 'MOVE' Filter:
+##### PUSHK "MOVE" Filter
+
+- https://vigatron.github.io/pushk2pre1move/
+
+##### .cells format description
+
+- https://vigatron.github.io/formats/cells/
