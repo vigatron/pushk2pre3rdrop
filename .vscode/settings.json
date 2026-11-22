@@ -66,6 +66,14 @@
             // "0",
             // "8",
             // "2048"
+
+            "--version"
+
+            // "s",
+            // "/tmp/pushk/pushk_opid_1/rdrp_src.bin",
+            // "/tmp/pushk/pushk_opid_1/rdrp_tbl.bin",
+            // "/tmp/pushk/pushk_opid_1/rdrp_out.bin",
+            // "0", "32", "32"
         ]
     },
     "python-envs.pythonProjects": [
