@@ -55,7 +55,7 @@ int func_split(int argc, char *argv[]) {
 
   std::string file_log = fname_out + ".rdrop_log.txt";
 
-  if (!rdrp.Process(arrsrc, bsize, 16, file_log)) {
+  if (!rdrp.Process(arrsrc, bsize, LAYERS_MAX, file_log)) {
     return eError_ProcessError;
   }
 
